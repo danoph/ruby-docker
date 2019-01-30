@@ -6,6 +6,7 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.5/main' >> /etc/apk/repositori
   libsodium-dev \
   nodejs \
   unzip \
+  zip \
   mariadb-client \
   mariadb-dev \
   #mysql-dev \
