@@ -1,8 +1,8 @@
 FROM danoph/ruby-docker:2.3.8
 
-RUN apt-get install -y xvfb
-
-RUN curl --silent --show-error --location --fail --retry 3 --output /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+RUN apt-get update \
+      && apt-get install -y xvfb \
+      && curl --silent --show-error --location --fail --retry 3 --output /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
       && (sudo dpkg -i /tmp/google-chrome-stable_current_amd64.deb || sudo apt-get -fy install)  \
       && rm -rf /tmp/google-chrome-stable_current_amd64.deb \
       && sudo sed -i 's|HERE/chrome"|HERE/chrome" --disable-setuid-sandbox --no-sandbox|g' \
