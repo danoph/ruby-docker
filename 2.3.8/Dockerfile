@@ -19,7 +19,6 @@ RUN apt-get update \
     locales libssl-dev sudo openssh-client ca-certificates tar gzip parallel \
     net-tools netcat unzip zip bzip2 gnupg curl wget
 
-
 # Set timezone to UTC by default
 RUN ln -sf /usr/share/zoneinfo/Etc/UTC /etc/localtime
 
@@ -94,5 +93,21 @@ ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/lib/node_modules
 ENV PATH      $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 
 RUN apt-get install libsodium-dev mysql-client libsqlite3-dev -y
+
+#RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add \
+  #&& echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+  #&& apt-get update \
+  #&& apt-get install -y yarn \
+  #&& which yarn \
+  #&& yarn --version
+
+# Install yarn
+RUN apt-get update && apt-get install -y apt-transport-https
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+RUN apt-get update && apt-get install yarn -y \
+  && which yarn \
+  && yarn --version
 
 CMD ["/bin/sh"]

@@ -22,7 +22,8 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.5/main' >> /etc/apk/repositori
   zlib \
   zlib-dev \
   libressl \
-  libressl-dev
+  libressl-dev \
+  yarn
   #wget \
   #gcc \
   #openssl-dev
