@@ -1,4 +1,4 @@
-FROM ruby:2.6.0-alpine3.8
+FROM ruby:2.6.4-alpine3.9
 
 RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.5/main' >> /etc/apk/repositories \
   && apk add --update --no-cache \
