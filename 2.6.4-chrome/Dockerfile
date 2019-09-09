@@ -1,4 +1,4 @@
-FROM ruby:2.6.4-slim-stretch
+FROM ruby:2.6.4-stretch
 
 # make Apt non-interactive
 RUN echo 'APT::Get::Assume-Yes "true";' > /etc/apt/apt.conf.d/90circleci \
@@ -78,17 +78,21 @@ RUN set -ex \
 
 # ENV NVM_DIR ~/.nvm
 #ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION v10.16.0
+#ENV NODE_VERSION v10.16.0
 
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+#RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 
-ENV NVM_DIR /root/.nvm
-RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use $NODE_VERSION"
+#ENV NVM_DIR /root/.nvm
+#RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use $NODE_VERSION"
 
-ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/lib/node_modules
-ENV PATH      $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
+#ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/lib/node_modules
+#ENV PATH      $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 
-RUN apt-get install libsodium-dev mysql-client libsqlite3-dev -y
+# RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get install nodejs libsodium-dev mysql-client libsqlite3-dev -y
+
+RUN node -v
 
 #RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add \
   #&& echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
