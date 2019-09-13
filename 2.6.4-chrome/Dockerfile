@@ -89,10 +89,31 @@ RUN set -ex \
 #ENV PATH      $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 
 # RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN apt-get install nodejs libsodium-dev mysql-client libsqlite3-dev -y
+#RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+# RUN apt-get install libsodium-dev mysql-client libsqlite3-dev -y
 
-RUN node -v
+#RUN node -v
+
+#RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add \
+  #&& echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+  #&& apt-get update \
+  #&& apt-get install -y yarn \
+  #&& which yarn \
+  #&& yarn --version
+
+# Install yarn
+
+ENV NODE_VERSION v8.12.0
+
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+
+ENV NVM_DIR /root/.nvm
+RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use $NODE_VERSION"
+
+ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/lib/node_modules
+ENV PATH      $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
+
+RUN apt-get install libsodium-dev mysql-client libsqlite3-dev -y
 
 #RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add \
   #&& echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
@@ -109,7 +130,6 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 RUN apt-get update && apt-get install yarn -y \
   && which yarn \
   && yarn --version
-
 
 # install chrome
 
