@@ -1,11 +1,14 @@
 FROM danoph/ruby-docker:2.3.8
 
 RUN apt-get update \
-    && apt-get install -y xvfb \
-    && curl --silent --show-error --location --fail --retry 3 --output /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+    && apt-get install -y xvfb
+
+# install chrome
+
+RUN curl --silent --show-error --location --fail --retry 3 --output /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
     && (sudo dpkg -i /tmp/google-chrome-stable_current_amd64.deb || sudo apt-get -fy install)  \
     && rm -rf /tmp/google-chrome-stable_current_amd64.deb \
-    && sudo sed -i 's|HERE/chrome"|HERE/chrome" --disable-setuid-sandbox --no-sandbox|g' \
+    && sudo sed -i 's|HERE/chrome"|HERE/chrome" --disable-setuid-sandbox --no-sandbox --disable-dev-shm-usage|g' \
         "/opt/google/chrome/google-chrome" \
     && google-chrome --version
 
@@ -21,7 +24,7 @@ RUN CHROME_VERSION="$(google-chrome --version)" \
     && chromedriver --version
 
 ENV DISPLAY :99
-RUN printf '#!/bin/sh\nXvfb :99 -screen 0 1280x1024x24 &\nexec "$@"\n' > /tmp/entrypoint \
+RUN printf '#!/bin/sh\nXvfb :99 -screen 0 2560x2560x24 &\nexec "$@"\n' > /tmp/entrypoint \
   && chmod +x /tmp/entrypoint \
         && sudo mv /tmp/entrypoint /docker-entrypoint.sh
 
