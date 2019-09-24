@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -e
+
+docker push danoph/ruby-docker:2.6.4-chrome-circleci
